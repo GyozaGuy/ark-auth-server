@@ -2,7 +2,7 @@ import { createTableUnlessExists } from '../helpers/sqliteHelper.mjs';
 
 createTableUnlessExists('players', {
   allowedOnServer: 'INTEGER',
-  discordId: 'TEXT',
+  discordId: 'STRING',
   id: 'INTEGER PRIMARY KEY AUTOINCREMENT',
-  steamId: 'INTEGER'
+  steamId: 'STRING'
 });
