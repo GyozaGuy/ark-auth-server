@@ -80,8 +80,8 @@ router.post('/players/:discordId', async (req, res) => {
         updatedValues.steamId = steamId;
       }
 
-      debug(`Updated data for player ${discordId}`);
       await updateTable('players', updatedValues, { discordId });
+      debug(`Updated data for player ${discordId}`);
       res.status(200).json({ message: 'Player successfully updated' });
     } else if (discordId) {
       if (validSteamIdRegex.test(steamId)) {
