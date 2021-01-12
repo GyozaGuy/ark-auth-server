@@ -19,6 +19,7 @@ router.get('/authenticate', async (req, res) => {
 
   if (validSteamIdRegex.test(steamId)) {
     const player = await getByValuesFromTable('players', { steamId: Number(steamId) });
+    debug('Player:', player);
     allowedOnServer = Boolean(player?.allowedOnServer);
     discordId = player?.discordId || 'unknown';
   }
