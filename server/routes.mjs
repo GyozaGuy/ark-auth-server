@@ -24,6 +24,7 @@ router.get('/authenticate', async (req, res) => {
   }
 
   debug(`Auth status for ${discordId} (${steamId}): ${allowedOnServer}`);
+  debug('Response:', { allowed: allowedOnServer ? '1' : '0', steam_id: steamId });
   res.status(200).json({ allowed: allowedOnServer ? '1' : '0', steam_id: steamId });
 });
 
