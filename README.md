@@ -59,7 +59,7 @@ To delete a user's data, make a DELETE request to `/players/:playerName`.
 
 To view a user's current data, make a GET request to `/players/:playerName` (you can also open up this path in a browser to see it).
 
-## Join Control endpoint
+## Join Control configuration
 
 The path to use in your Join Control GameUserSettings.ini config is `/authenticate`. A sample Join Control config entry might look like the following:
 
