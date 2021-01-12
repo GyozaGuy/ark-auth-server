@@ -29,23 +29,28 @@ router.get('/authenticate', async (req, res) => {
 });
 
 router.delete('/players/:discordId', async (req, res) => {
-  const { discordId } = req.params;
-
-  if (discordId) {
-    const player = await getByValuesFromTable('players', { discordId });
-
-    if (player) {
-      debug(`Deleting data for player ${discordId}`);
-      await deleteFromTable('players', { discordId });
-      res.status(200).json({ message: 'Player successfully deleted' });
-    } else {
-      const message = `No player found with Discord ID ${discordId}`;
-      debug(message);
-      res.status(400).json({ message });
-    }
+  if (req.headers['auth-secret'] !== process.env.AUTH_SECRET) {
+    debug(`Invalid auth secret: ${req.headers['auth-secret']}`);
+    res.status(204).end();
   } else {
-    debug('Discord ID required');
-    res.status(400).json({ message: 'Discord ID required' });
+    const { discordId } = req.params;
+
+    if (discordId) {
+      const player = await getByValuesFromTable('players', { discordId });
+
+      if (player) {
+        debug(`Deleting data for player ${discordId}`);
+        await deleteFromTable('players', { discordId });
+        res.status(200).json({ message: 'Player successfully deleted' });
+      } else {
+        const message = `No player found with Discord ID ${discordId}`;
+        debug(message);
+        res.status(400).json({ message });
+      }
+    } else {
+      debug('Discord ID required');
+      res.status(400).json({ message: 'Discord ID required' });
+    }
   }
 });
 
