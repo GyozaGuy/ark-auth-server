@@ -20,6 +20,7 @@ npm install
 
 - Copy `.env.template` to `.env`
 - Replace values in `.env` to your liking
+- Run `npm run init` to create the database
 
 ## .env file values
 
