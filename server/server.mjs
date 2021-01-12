@@ -1,26 +1,28 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import http from 'http';
+import morgan from 'morgan';
 
 import routes from './routes.mjs';
 
 dotenv.config();
 
-const server = express();
+const app = express();
 const port = Number(process.env.PORT) || 3000;
 
-server.set('port', port);
-server.use(express.json());
-server.use(routes);
+app.set('port', port);
+app.use(express.json());
+app.use(morgan('combined'));
+app.use(routes);
 
-const authServer = http.createServer(server);
+const server = http.createServer(app);
 
-authServer.listen(port);
+server.listen(port);
 
-authServer.on('error', err => {
+server.on('error', err => {
   console.error(err.message);
 });
 
-authServer.on('listening', () => {
+server.on('listening', () => {
   console.info(`Listening on port ${port}`);
 });
