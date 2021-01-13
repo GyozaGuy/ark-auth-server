@@ -43,12 +43,12 @@ auth-secret: the-same-value-you-put-in-the-.env-file-above
 
 To add a user to the database, make a POST request to `/players/:playerName` with the following body:
 
-**NOTE: It is important that you do _not_ surround the Steam ID in quotes!**
+**NOTE: It is important that you surround the Steam ID in quotes!**
 
 ```json
 {
   "allowedOnServer": 1,
-  "steamId": 12345678987654321
+  "steamId": "12345678987654321"
 }
 ```
 
