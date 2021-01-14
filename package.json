@@ -2,7 +2,7 @@
   "name": "ark-auth-server",
   "version": "1.0.0",
   "description": "Basic auth server for ARK: Survival Evolved servers.",
-  "main": "server.mjs",
+  "main": "server/server.mjs",
   "scripts": {
     "debug": "DEBUG=http nodemon server/server.mjs",
     "init": "node scripts/init.mjs",
