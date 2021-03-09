@@ -1,5 +1,6 @@
 import setupDebug from 'debug';
 import express from 'express';
+import fetch from 'node-fetch';
 
 import {
   deleteFromTable,
@@ -23,9 +24,22 @@ router.get('/authenticate', async (req, res) => {
     discordId = player?.discordId || 'unknown';
   }
 
+  const allowed = allowedOnServer ? '1' : '0';
   debug(`Auth status for ${discordId} (${steamId}): ${allowedOnServer}`);
-  debug('Response:', { allowed: allowedOnServer ? '1' : '0', steam_id: steamId });
-  res.status(200).json({ allowed: allowedOnServer ? '1' : '0', steam_id: steamId });
+  debug('Response:', { allowed, steam_id: steamId });
+  res.status(200).json({ allowed, steam_id: steamId });
+
+  if (allowed && process.env.WEBHOOK_URL) {
+    fetch(process.env.WEBHOOK_URL, {
+      body: JSON.stringify({
+        content: `${discordId} has joined the server`
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST'
+    });
+  }
 });
 
 router.delete('/players/:discordId', async (req, res) => {
