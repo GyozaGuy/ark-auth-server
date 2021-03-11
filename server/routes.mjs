@@ -68,19 +68,28 @@ router.delete('/players/:discordId', async (req, res) => {
   }
 });
 
-router.get('/players/:discordId', async (req, res) => {
-  const { discordId } = req.params;
+router.get('/players/:id', async (req, res) => {
+  const { id } = req.params;
+  let discordId;
+  let steamId;
 
-  if (discordId) {
-    const player = await getByValuesFromTable('players', { discordId });
+  if (/^\d{17}$/.test(id)) {
+    steamId = id;
+  } else {
+    discordId = id;
+  }
+
+  if (discordId || steamId) {
+    const options = discordId ? { discordId } : { steamId };
+    const player = await getByValuesFromTable('players', options);
 
     if (player) {
       res.status(200).json(player);
     } else {
-      res.status(400).json({ message: `No data found for player ${discordId}` });
+      res.status(400).json({ message: `No data found for player ${id}` });
     }
   } else {
-    res.status(400).json({ message: 'No Discord ID provided' });
+    res.status(400).json({ message: 'No ID provided' });
   }
 });
 
