@@ -29,17 +29,18 @@ router.get('/authenticate', async (req, res) => {
   debug('Response:', { allowed, steam_id: steamId });
   res.status(200).json({ allowed, steam_id: steamId });
 
-  if (allowed && process.env.WEBHOOK_URL) {
-    fetch(process.env.WEBHOOK_URL, {
-      body: JSON.stringify({
-        content: `${discordId} has joined the server`
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
-    });
-  }
+  // NOTE: Disabled (for now) to avoid duplicate "player joined" messages
+  // if (allowed && process.env.WEBHOOK_URL) {
+  //   fetch(process.env.WEBHOOK_URL, {
+  //     body: JSON.stringify({
+  //       content: `${discordId} has joined the server`
+  //     }),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     method: 'POST'
+  //   });
+  // }
 });
 
 router.delete('/players/:discordId', async (req, res) => {
